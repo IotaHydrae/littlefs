@@ -12,3 +12,7 @@ test.c
 tests/*.toml.*
 scripts/__pycache__
 .gdb_history
+
+a.out
+compile_commands.json
+test_lfs

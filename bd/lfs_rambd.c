@@ -21,10 +21,12 @@ int lfs_rambd_createcfg(const struct lfs_config *cfg,
             (void*)bdcfg, bdcfg->erase_value, bdcfg->buffer);
     lfs_rambd_t *bd = cfg->context;
     bd->cfg = bdcfg;
-
+    printf("%s, %p\n", __func__, bd->cfg->buffer);
     // allocate buffer?
     if (bd->cfg->buffer) {
+        printf("pre alloced buffer\n");
         bd->buffer = bd->cfg->buffer;
+        printf("%s, %p\n", __func__, (void *)bd->buffer);
     } else {
         bd->buffer = lfs_malloc(cfg->block_size * cfg->block_count);
         if (!bd->buffer) {
@@ -84,6 +86,8 @@ int lfs_rambd_read(const struct lfs_config *cfg, lfs_block_t block,
     LFS_ASSERT(block < cfg->block_count);
 
     // read data
+    // printf("%p %p\n", buffer, bd->buffer);
+    // printf("%d %d %d %d\n", block, cfg->block_size, off,  size);
     memcpy(buffer, &bd->buffer[block*cfg->block_size + off], size);
 
     LFS_RAMBD_TRACE("lfs_rambd_read -> %d", 0);

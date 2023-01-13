@@ -44,6 +44,9 @@ extern "C"
 {
 #endif
 
+#define LFS_NO_MALLOC
+#define LFS_NO_ASSERT
+// #define LFS_YES_TRACE
 
 // Macros, may be replaced by system specific wrappers. Arguments to these
 // macros must not have side-effects as the macros can be removed for a smaller
@@ -214,15 +217,17 @@ static inline uint32_t lfs_tobe32(uint32_t a) {
 // Calculate CRC-32 with polynomial = 0x04c11db7
 uint32_t lfs_crc(uint32_t crc, const void *buffer, size_t size);
 
+extern uint8_t *mem;
 // Allocate memory, only used if buffers are not provided to littlefs
 // Note, memory must be 64-bit aligned
 static inline void *lfs_malloc(size_t size) {
-#ifndef LFS_NO_MALLOC
-    return malloc(size);
-#else
+// #ifndef LFS_NO_MALLOC
+    // return malloc(size);
+// #else
     (void)size;
-    return NULL;
-#endif
+    return (void *)mem;
+    // return NULL;
+// #endif
 }
 
 // Deallocate memory, only used if buffers are not provided to littlefs

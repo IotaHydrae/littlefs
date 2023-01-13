@@ -16,6 +16,7 @@ extern "C"
 {
 #endif
 
+#define LFS_RAMBD_YES_TRACE
 
 // Block device specific tracing
 #ifdef LFS_RAMBD_YES_TRACE

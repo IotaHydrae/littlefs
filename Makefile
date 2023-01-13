@@ -25,7 +25,8 @@ NM      ?= nm
 OBJDUMP ?= objdump
 LCOV    ?= lcov
 
-SRC ?= $(wildcard *.c)
+#SRC ?= $(wildcard *.c)
+SRC ?= $(wildcard lfs*.c)
 OBJ := $(SRC:%.c=$(BUILDDIR)%.o)
 DEP := $(SRC:%.c=$(BUILDDIR)%.d)
 ASM := $(SRC:%.c=$(BUILDDIR)%.s)
@@ -136,6 +137,9 @@ $(BUILDDIR)lfs: $(OBJ)
 
 $(BUILDDIR)lfs.a: $(OBJ)
 	$(AR) rcs $@ $^
+
+run: lfs.a
+	$(CC) $(CFLAGS) test_lfs.c bd/lfs_rambd.c lfs.a $(LFLAGS) -o test_lfs
 
 $(BUILDDIR)lfs.csv: $(OBJ) $(CGI)
 	./scripts/code.py $(OBJ) -q $(CODEFLAGS) -o $@
