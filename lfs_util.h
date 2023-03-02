@@ -26,6 +26,12 @@
 #include <string.h>
 #include <inttypes.h>
 
+#define LFS_NO_MALLOC
+// #define LFS_YES_TRACE
+// #define LFS_YES_DEBUG
+// #define LFS_YES_WARN
+// #define LFS_YES_ERROR
+
 #ifndef LFS_NO_MALLOC
 #include <stdlib.h>
 #endif
@@ -43,10 +49,6 @@
 extern "C"
 {
 #endif
-
-#define LFS_NO_MALLOC
-#define LFS_NO_ASSERT
-// #define LFS_YES_TRACE
 
 // Macros, may be replaced by system specific wrappers. Arguments to these
 // macros must not have side-effects as the macros can be removed for a smaller
@@ -221,13 +223,12 @@ extern uint8_t *mem;
 // Allocate memory, only used if buffers are not provided to littlefs
 // Note, memory must be 64-bit aligned
 static inline void *lfs_malloc(size_t size) {
-// #ifndef LFS_NO_MALLOC
-    // return malloc(size);
-// #else
+#ifndef LFS_NO_MALLOC
+    return malloc(size);
+#else
     (void)size;
-    return (void *)mem;
-    // return NULL;
-// #endif
+    return NULL;
+#endif
 }
 
 // Deallocate memory, only used if buffers are not provided to littlefs

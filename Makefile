@@ -43,6 +43,7 @@ endif
 override CFLAGS += -g3
 override CFLAGS += -I.
 override CFLAGS += -std=c99 -Wall -Wextra -pedantic
+override CFLAGS += -DLFS_NO_ASSERT
 
 ifdef VERBOSE
 override TESTFLAGS     += -v
@@ -140,6 +141,7 @@ $(BUILDDIR)lfs.a: $(OBJ)
 
 run: lfs.a
 	$(CC) $(CFLAGS) test_lfs.c bd/lfs_rambd.c lfs.a $(LFLAGS) -o test_lfs
+	./test_lfs
 
 $(BUILDDIR)lfs.csv: $(OBJ) $(CGI)
 	./scripts/code.py $(OBJ) -q $(CODEFLAGS) -o $@
